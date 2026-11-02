@@ -1,0 +1,12 @@
+{
+    "name": "navarasa API",
+    "version": "1.0.0",
+    "url": "{{baseUrl}}/v1",
+    "header": {
+        "title": "navarasa API"
+    },
+    "description": "navarasa API Documentation",
+    "template": {
+        "forceLanguage": "en"
+    }
+}

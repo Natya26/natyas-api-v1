@@ -1,0 +1,6 @@
+{
+  "name": "navarasa",
+  "script": "app.js",
+  "watch": ".",
+  "ignore_watch": ["node_modules","tmp",".nyc_output"]
+}

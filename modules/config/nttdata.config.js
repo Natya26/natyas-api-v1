@@ -1,0 +1,18 @@
+const {
+    NTT_DATA_AES_REQ_SECRET_KEY,
+    NTT_DATA_AES_REQ_SECRET_IV,
+    NTT_DATA_AES_RES_SECRET_KEY,
+    NTT_DATA_AES_RES_SECRET_IV,
+    NTT_DATA_USER_ID,
+    NTT_DATA_TRANSACTION_PASS,
+    NTT_DATA_MERCH_ID,
+} = process.env;
+module.exports = {
+    encryptReqKey: NTT_DATA_AES_REQ_SECRET_KEY,
+    encryptReqIV: NTT_DATA_AES_REQ_SECRET_IV,
+    encryptResKey: NTT_DATA_AES_RES_SECRET_KEY,
+    encryptResIV: NTT_DATA_AES_RES_SECRET_IV,
+    merchantUserId: NTT_DATA_USER_ID,
+    transactionPass: NTT_DATA_TRANSACTION_PASS,
+    merchantId: NTT_DATA_MERCH_ID,
+};

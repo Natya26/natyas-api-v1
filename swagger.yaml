@@ -1,0 +1,1928 @@
+paths:
+  /login:
+    post:
+      tags:
+        - Auth
+      summary: Login API
+      requestBody:
+          required: true
+          content: 
+              application/json:
+                  schema:
+                      $ref: '#/components/schemas/LoginPayload'
+      responses:
+        200:
+          description: A JSON Oject
+          content:
+            application/json:
+              schema: 
+                type: object
+                $ref: '#/components/schemas/LoginResponse'
+  /logout:
+    post:
+      tags:
+        - Auth
+      security:
+          - accessTokenAuth: []
+          - idTokenAuth: []
+      summary: Logout API
+      responses:
+        200:
+          description: A JSON Object
+          content:
+            application/json:
+              schema: 
+                type: object
+                $ref: '#/definitions/LogoutResponse'
+  /send-notification:
+    post:
+      tags:
+       - Notifications
+      security:
+        - accessTokenAuth: []
+        - idTokenAuth: []
+      summary: Send Notification
+      requestBody:
+        required: true
+        content: 
+          application/json:
+            schema:
+              $ref: '#/definitions/SendNotificationPayload'
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/definitions/SendNotificationResponse'
+  /notifications:
+    get:
+      tags:
+        - Notifications
+      security:
+          - accessTokenAuth: []
+          - idTokenAuth: []
+      summary: Get Notification List
+      parameters:
+        - in: query
+          name: page
+          schema:
+            type: integer
+            format: int32
+        - in: query
+          name: page_length
+          schema:
+            type: integer
+            format: int32
+        - in: query
+          name: order
+          schema:
+            type: string
+            enum: [ASC, DESC]
+        - in: query
+          name: userId
+          schema:
+            type: string
+            format: uuid
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/definitions/NotificationListResponse'
+  /users:
+    get:
+      tags:
+        - Users
+      security:
+          - accessTokenAuth: []
+          - idTokenAuth: []
+      summary: Get User List
+      parameters:
+        - in: query
+          name: page
+          schema:
+            type: integer
+            format: int32
+        - in: query
+          name: page_length
+          schema:
+            type: integer
+            format: int32
+        - in: query
+          name: order
+          schema:
+            type: string
+            enum: [ASC, DESC]
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/definitions/UserListResponse'
+  /users/{user_id}:
+    get:
+      tags:
+        - Users
+      security:
+          - accessTokenAuth: []
+          - idTokenAuth: []
+      summary: Get User Data
+      parameters:
+        - in: path
+          name: user_id
+          description: User ID
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/definitions/GetUserResponse'
+  /users/{user_id}/restrict:
+    patch:
+      tags:
+        - Users
+      security:
+          - accessTokenAuth: []
+          - idTokenAuth: []
+      summary: Restrict User
+      parameters:
+        - in: path
+          name: user_id
+          description: User ID
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content: 
+          application/json:
+            schema:
+              $ref: '#/definitions/RestrictUserPayload'
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/definitions/RestrictUserResponse'
+  /users/delete:
+    post:
+      tags:
+        - Users
+      security:
+          - accessTokenAuth: []
+          - idTokenAuth: []
+      summary: Delete User
+      requestBody:
+        required: true
+        content: 
+          application/json:
+            schema:
+              $ref: '#/definitions/DeleteUserPayload'
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/definitions/DeleteUserResponse'
+  /profile-picture:
+    post:
+      tags:
+        - Users
+      security:
+          - accessTokenAuth: []
+          - idTokenAuth: []
+      summary: Add Profile Picture
+      requestBody:
+        required: true
+        content: 
+          multipart/form-data:
+            schema:
+              $ref: '#/definitions/ProfilePicturePayload'
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/definitions/User'
+  /app/coming-soon:
+    get:
+      tags:
+        - App
+      security:
+          - accessTokenAuth: []
+          - idTokenAuth: []
+      summary: Get Upcoming Series
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                $ref: '#/definitions/ComingSoonResponse'
+  /series/create:
+    post:
+      tags:
+        - Series
+      security:
+          - accessTokenAuth: []
+          - idTokenAuth: []
+      summary: Create Series
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/definitions/CreateSeriesPayload'
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                $ref: '#/definitions/CreateSeriesResponse'
+  /series/{series_id}/update:
+    post:
+      tags:
+        - Series
+      security:
+          - accessTokenAuth: []
+          - idTokenAuth: []
+      summary: Update Series
+      parameters:
+        - in: path
+          name: series_id
+          description: Series ID
+          required: true
+          schema:
+            type: integer
+            format: int32
+            example: 1
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/definitions/CreateSeriesPayload'
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                $ref: '#/definitions/CreateSeriesResponse'
+  /series/videos/list:
+    get:
+      tags:
+        - Series
+      security:
+          - accessTokenAuth: []
+          - idTokenAuth: []
+      summary: Get Video List
+      parameters:
+        - in: query
+          name: page
+          schema:
+            type: integer
+            format: int32
+        - in: query
+          name: page_length
+          schema:
+            type: integer
+            format: int32
+        - in: query
+          name: order
+          schema:
+            type: string
+            enum: [ASC, DESC]
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/definitions/SeriesVideoListResponse'
+  /user/subscription:
+    get:
+      tags:
+        - Subscriptions
+      security:
+          - accessTokenAuth: []
+          - idTokenAuth: []
+      summary: Get User Subscription
+      responses:
+          200:
+              description: SUCCESS
+              content:
+                  application/json:
+                      schema:
+                          $ref: '#/definitions/GetSubscriptionResponse'
+  /subscriptions:
+    get:
+      tags:
+        - Subscriptions
+      security:
+          - accessTokenAuth: []
+          - idTokenAuth: []
+      summary: List Subscriptions
+      parameters:
+        - in: query
+          name: page
+          schema:
+            type: integer
+            format: int32
+        - in: query
+          name: page_length
+          schema:
+            type: integer
+            format: int32
+        - in: query
+          name: order
+          schema:
+            type: string
+            enum: [ASC, DESC]
+      responses:
+          200:
+              description: SUCCESS
+              content:
+                  application/json:
+                      schema:
+                          $ref: '#/definitions/ListSubscriptionResponse'
+    post:
+      tags:
+        - Subscriptions
+      security:
+          - accessTokenAuth: []
+          - idTokenAuth: []
+      summary: Create Subscription
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/definitions/SubscriptionPayload'
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                $ref: '#/definitions/GetSubscriptionResponse'
+  /subscriptions/{subscription_id}:
+    get:
+      tags:
+        - Subscriptions
+      security:
+          - accessTokenAuth: []
+          - idTokenAuth: []
+      summary: Get Subscription
+      parameters:
+        - in: path
+          name: subscription_id
+          description: Subscription ID
+          required: true
+          schema:
+            type: integer
+            format: int32
+            example: 1
+      responses:
+          200:
+              description: SUCCESS
+              content:
+                  application/json:
+                      schema:
+                          $ref: '#/definitions/GetSubscriptionResponse'
+    patch:
+      tags:
+        - Subscriptions
+      security:
+          - accessTokenAuth: []
+          - idTokenAuth: []
+      summary: Update Subscription
+      parameters:
+        - in: path
+          name: subscription_id
+          description: Subscription ID
+          required: true
+          schema:
+            type: integer
+            format: int32
+            example: 1
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/definitions/UpdateSubscriptionPayload'
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                $ref: '#/definitions/GetSubscriptionResponse'
+    delete:
+      tags:
+        - Subscriptions
+      security:
+          - accessTokenAuth: []
+          - idTokenAuth: []
+      summary: Delete Subscription
+      parameters:
+        - in: path
+          name: subscription_id
+          description: Subscription ID
+          required: true
+          schema:
+            type: integer
+            format: int32
+            example: 1
+      responses:
+          200:
+              description: SUCCESS
+              content:
+                  application/json:
+                      schema:
+                          $ref: '#/definitions/GetSubscriptionResponse'
+  /subscriptions/plans:
+    get:
+      tags:
+        - Subscriptions
+      security:
+        - accessTokenAuth: []
+        - idTokenAuth: []
+      summary: Get Subscription Plan List
+      parameters:
+        - in: query
+          name: page
+          schema:
+            type: integer
+            format: int32
+        - in: query
+          name: page_length
+          schema:
+            type: integer
+            format: int32
+        - in: query
+          name: order
+          schema:
+            type: string
+            enum: [ASC, DESC]
+      responses:
+          200:
+              description: SUCCESS
+              content:
+                  application/json:
+                      schema:
+                          $ref: '#/components/schemas/SubscriptionPlanListResponse'
+  /payments:
+    post:
+      tags:
+        - Payments
+      security:
+          - accessTokenAuth: []
+          - idTokenAuth: []
+      summary: Create new Payment Intent
+      requestBody:
+          required: true
+          content: 
+              application/json:
+                  schema:
+                      $ref: '#/definitions/CreatePaymentPayload'
+      responses:
+          200:
+              description: SUCCESS
+              content:
+                  application/json:
+                      schema:
+                          $ref: '#/definitions/CreatePaymentResponse'
+    get:
+      tags:
+        - Payments
+      security:
+          - accessTokenAuth: []
+          - idTokenAuth: []
+      summary: Get Payment List
+      parameters:
+        - in: query
+          name: page
+          schema:
+            type: integer
+            format: int32
+        - in: query
+          name: page_length
+          schema:
+            type: integer
+            format: int32
+        - in: query
+          name: order
+          schema:
+            type: string
+            enum: [ASC, DESC]
+      responses:
+          200:
+              description: SUCCESS
+              content:
+                  application/json:
+                      schema:
+                          $ref: '#/definitions/ListPaymentResponse'
+  /payments/{payment_id}:
+    put:
+      tags:
+        - Payments
+      security:
+          - accessTokenAuth: []
+          - idTokenAuth: []
+      summary: Update Payment
+      parameters:
+        - in: path
+          name: payment_id
+          description: Payment ID
+          required: true
+          schema:
+            type: integer
+            format: int32
+            example: 1
+      requestBody:
+          required: true
+          content: 
+              application/json:
+                  schema:
+                      $ref: '#/definitions/UpdatePaymentPayload'
+      responses:
+          200:
+              description: SUCCESS
+              content:
+                  application/json:
+                      schema:
+                          $ref: '#/definitions/UpdatePaymentResponse'
+    get:
+      tags:
+        - Payments
+      security:
+          - accessTokenAuth: []
+          - idTokenAuth: []
+      summary: Get Payment
+      parameters:
+        - in: path
+          name: payment_id
+          description: Payment ID
+          required: true
+          schema:
+            type: integer
+            format: int32
+            example: 1
+      responses:
+          200:
+              description: SUCCESS
+              content:
+                  application/json:
+                      schema:
+                          $ref: '#/definitions/UpdatePaymentResponse'
+    delete:
+      tags:
+        - Payments
+      security:
+          - accessTokenAuth: []
+          - idTokenAuth: []
+      summary: Delete Payment
+      parameters:
+        - in: path
+          name: payment_id
+          description: Payment ID
+          required: true
+          schema:
+            type: integer
+            format: int32
+            example: 1
+      responses:
+          200:
+              description: SUCCESS
+              content:
+                  application/json:
+                      schema:
+                          $ref: '#/definitions/UpdatePaymentResponse'
+  /subscription-plans:
+    post:
+      tags:
+        - Subscription Plans
+      security:
+          - accessTokenAuth: []
+          - idTokenAuth: []
+      summary: Create new subscription plan
+      requestBody:
+          required: true
+          content: 
+              application/json:
+                  schema:
+                      $ref: '#/components/schemas/SubscriptionPlanPayload'
+      responses:
+          200:
+              description: SUCCESS
+              content:
+                  application/json:
+                      schema:
+                          $ref: '#/components/schemas/SubscriptionPlanCreateResponse'
+    get:
+      tags:
+        - Subscription Plans
+      security:
+        - accessTokenAuth: []
+        - idTokenAuth: []
+      summary: Get Subscription Plan List
+      parameters:
+        - in: query
+          name: page
+          schema:
+            type: integer
+            format: int32
+        - in: query
+          name: page_length
+          schema:
+            type: integer
+            format: int32
+        - in: query
+          name: order
+          schema:
+            type: string
+            enum: [ASC, DESC]
+      responses:
+          200:
+              description: SUCCESS
+              content:
+                  application/json:
+                      schema:
+                          $ref: '#/components/schemas/SubscriptionPlanListResponse'
+  /subscription-plans/{plan_id}:
+    put:
+      tags:
+        - Subscription Plans
+      security:
+          - accessTokenAuth: []
+          - idTokenAuth: []
+      summary: Update subscription plan
+      parameters:
+        - name: plan_id
+          in: path
+          description: Subscription Plan ID
+          required: true
+          schema:
+            type: integer
+            format: int32
+            example: 1
+      requestBody:
+          required: true
+          content: 
+              application/json:
+                  schema:
+                      $ref: '#/components/schemas/SubscriptionPlanPayload'
+      responses:
+          200:
+              description: SUCCESS
+              content:
+                  application/json:
+                      schema:
+                          $ref: '#/components/schemas/SubscriptionPlanCreateResponse'
+    get:
+      tags:
+        - Subscription Plans
+      security:
+          - accessTokenAuth: []
+          - idTokenAuth: []
+      summary: Get Subscription Plan
+      parameters:
+        - name: plan_id
+          in: path
+          description: Subscription Plan ID
+          required: true
+          schema:
+            type: integer
+            format: int32
+            example: 1
+      responses:
+          200:
+              description: SUCCESS
+              content:
+                  application/json:
+                      schema:
+                          $ref: '#/components/schemas/SubscriptionPlanCreateResponse'
+    delete:
+      tags:
+        - Subscription Plans
+      security:
+        - accessTokenAuth: []
+        - idTokenAuth: []
+      summary: Delete Subscription Plan
+      parameters:
+        - name: plan_id
+          in: path
+          description: Subscription Plan ID
+          required: true
+          schema:
+            type: integer
+            format: int32
+            example: 1
+      responses:
+          200:
+              description: SUCCESS
+              content:
+                  application/json:
+                      schema:
+                          $ref: '#/components/schemas/SubscriptionPlanDeleteResponse'
+  /webhook/razorpay:
+    post:
+      tags:
+        - Webhooks
+      summary: Webhooks - Razorpay
+      requestBody:
+          required: true
+          content: 
+              application/json:
+                  schema:
+                      $ref: '#/components/schemas/RazorpayPaymentComplete'
+      responses:
+        200:
+          description: A JSON Oject
+          content:
+            application/json:
+              schema: 
+                type: object
+                $ref: '#/components/schemas/RazorpayPaymentResponse'
+  /webhook/stripe:
+    post:
+      tags:
+        - Webhooks
+      summary: Webhooks - Stripe
+      requestBody:
+          required: true
+          content: 
+              application/json:
+                  schema:
+                      $ref: '#/components/schemas/StripePaymentComplete'
+      responses:
+        200:
+          description: A JSON Oject
+          content:
+            application/json:
+              schema: 
+                type: object
+                $ref: '#/components/schemas/StripePaymentResponse'
+components:
+  securitySchemes:
+    accessTokenAuth:
+        type: http
+        scheme: bearer
+        bearerFormat: JWT
+    idTokenAuth:
+        type: apiKey
+        in: header
+        name: ID
+  schemas:
+    Cast:
+     type: object
+     properties:
+      name:
+        type: string
+        example: Name
+    Series:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+          example: 10
+        name:
+          type: string
+          example: Name
+        description:
+          type: string
+          example: Description
+        poster:
+          type: string
+          example: series/10/poster/1674562131889-castlevania.jpg
+        active:
+          type: boolean
+          example: true
+        created_at:
+          type: string
+          format: date-time
+          example: 2023-01-18T08:51:18.723Z
+        updated_at:
+          type: string
+          format: date-time
+          example: 2023-01-18T08:51:18.723Z
+        featured:
+          type: boolean
+          example: false
+        director:
+          type: string
+          example: Director
+        casts:
+          type: array
+          items:
+           type: object
+           $ref: '#/components/schemas/Cast'
+        coming_soon:
+          type: boolean
+          example: false
+        release_date:
+          type: string
+          format: date-time
+          example: 2023-01-18T08:51:18.723Z
+        season_count:
+          type: integer
+          format: int32
+          example: 2
+        episode_count:
+          type: integer
+          format: int32
+          example: 6
+        isInMyList:
+          type: boolean
+          example: false
+        isLiked:
+          type: boolean
+          example: false
+        likes:
+          type: integer
+          format: int32
+          example: 1
+        genres:
+          type: array
+          items:
+           type: object
+           $ref: '#/components/schemas/Genre'
+        languages:
+          type: array
+          items:
+            type: object
+            $ref: '#/components/schemas/Language'
+        trailers:
+          type: array
+          items:
+           type: object
+           $ref: '#/components/schemas/VideoMetaData'
+        seasons:
+          type: array
+          items:
+           type: object
+           $ref: '#/components/schemas/Season'
+    Season:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+          example: 
+        series_id:
+          type: integer
+          format: int32
+          example: 10
+        name:
+          type: string
+          example: Name
+        description:
+          type: string
+          example: Description
+        active:
+          type: boolean
+          example: true
+        created_at:
+          type: string
+          format: date-time
+          example: 2023-01-18T08:53:08.063Z
+        updated_at:
+          type: string
+          format: date-time
+          example: 2023-01-18T08:53:08.063Z
+        season_number:
+          type: integer
+          format: int32
+          example: 1
+        episodes:
+          type: array
+          items:
+            type: object
+            $ref: '#/components/schemas/VideoMetaData'
+    VideoMetaData:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+          example: 1
+        fwp_id:
+          type: string
+          format: uuid
+          example: e2e704f2-902e-4615-a82d-f6a153dfrsdf8
+        name:
+          type: string
+          example: Name
+        description:
+          type: string
+          example: Description
+        poster:
+          type: string
+          example: videos/e2e704f2-902e-4615-a82d-f6a1531f83d8/poster/1676622714101-arcane-lol.jpg
+        duration:
+          type: integer
+          format: int32
+          example: 50
+        active:
+          type: boolean
+          example: true
+        created_at:
+          type: string
+          format: date-time
+          example: 2023-02-17T07:49:06.838Z
+        updated_at:
+          type: string
+          format: date-time
+          example: 2023-02-17T07:49:06.838Z
+        series_id:
+          type: integer
+          format: int32
+          example: null
+        season_id:
+          type: integer
+          format: int32
+          example: null
+        language_id:
+          type: integer
+          format: int32
+          example: 104
+        episode_number:
+          type: integer
+          format: int32
+          example: null
+        series:
+          type: object
+          $ref: '#/components/schemas/Series'
+        season:
+          type: object
+          $ref: '#/components/schemas/Season'
+        category:
+          type: object
+          $ref: '#/components/schemas/Category'
+        genres:
+          type: array
+          items:
+            type: object
+            $ref: '#/components/schemas/Genre'
+        language:
+          type: object
+          $ref: '#/components/schemas/Language'
+    Language:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+          example: 37
+        code:
+          type: string
+          example: en
+        name:
+          type: string
+          example: English
+    Category:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+          example: 2
+        name:
+          type: string
+          example: SERIES
+    Genre:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+          example: 1
+        name:
+          type: string
+          example: Action
+    Subscription:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+          example: 1
+        subscription_plan_id:
+          type: integer
+          format: int32
+          example: 1
+        user_id:
+          type: string
+          format: uuid
+          example: aea3406a-3f18-48be-aa54-55c80fcda334
+        valid_from:
+          type: string
+          format: date-time
+          example: 2023-02-20T07:04:14.502Z
+        valid_till:
+          type: string
+          format: date-time
+          example: 2023-02-20T07:04:14.502Z
+        active:
+          type: boolean
+          example: true
+        created_at:
+          type: string
+          format: date-time
+          example: 2023-02-20T07:04:14.502Z
+        updated_at:
+          type: string
+          format: date-time
+          example: 2023-02-20T07:04:14.502Z
+        user:
+          type: object
+          $ref: '#/definitions/User'
+        subscriptionPlan:
+          type: object
+          $ref: '#/definitions/SubscriptionPlan'
+    Payment:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+          example: 1
+        user_id:
+          type: string
+          format: uuid
+          example: aea3406a-3f18-48be-aa54-55c80fcda334
+        subscription_plan_id:
+          type: integer
+          format: int32
+          example: 1
+        payment_intent_id:
+          type: string
+          example: pi_1Dt1Zc2eZvKYlo2CWxIDsIH1_secret_TDgoas4E04hTc3c7oaN5eowo8
+        paid_amount:
+          type: number
+          format: double
+          example: 99.00
+        payment_status:
+          type: string
+          enum:
+            - INITIATED
+            - CANCELED
+            - COMPLETED
+            - FAILED
+            - PROCESSING
+          example: COMPLETED
+        active:
+          type: boolean
+          example: true
+        created_at:
+          type: string
+          format: date-time
+          example: 2023-02-20T07:04:14.502Z
+        updated_at:
+          type: string
+          format: date-time
+          example: 2023-02-20T07:04:14.502Z
+        user:
+          type: object
+          $ref: '#/definitions/User'
+        subscriptionPlan:
+          type: object
+          $ref: '#/definitions/SubscriptionPlan'
+    RazorpayPaymentComplete:
+      type: object
+      properties:
+        entity:
+          type: "string"
+          example: "event"
+        event:
+          type: "string"
+          example: "payment.captured"
+        payload:
+          type: "object"
+          example: 
+            payment: 
+              entity:
+                id: "pay_DESp9bgForNoUd"
+                entity: "payment"
+                amount: 100
+                currency: "INR"
+                base_amount: 100
+                status: "captured"
+                order_id: "order_DESoU0U4ikYA19"
+                invoice_id: null
+                international: false
+                method: "card"
+                amount_refunded: 0
+                amount_transferred: 0
+                refund_status: null
+                captured: true
+                description: null
+                card_id: "card_DESp9fNnu0RoNc"
+                card:
+                  id: "card_DESp9fNnu0RoNc"
+                  entity: "card"
+                  name: "Gaurav Kumar"
+                  last4: "1111"
+                  network: "Visa"
+                  type: "debit"
+                  issuer: null
+                  international: false
+                  emi: false
+                  sub_type: "business"
+                bank: null
+                wallet: null
+                vpa: null
+                email: "gaurav.kumar@example.com"
+                contact: "+919876543210"
+                notes: []
+                fee: 2
+                tax: 0
+                error_code: null
+                error_description: null
+                error_source: null
+                error_step: null
+                error_reason: null
+                acquirer_data:
+                  auth_code: "828553"
+                created_at: 1567674797
+    StripePaymentComplete:
+      type: object 
+      properties:
+        type:
+          type: "string"
+          example: "payment_intent.succeeded"
+        data:
+          type: "object"
+          example:
+            object: 
+              id: "pi_3MieHvSG8Py15w0r1b5KXtve"
+              object: "payment_intent"
+              amount: 2000
+              amount_capturable: 0
+              amount_details:
+                tip: {}
+              amount_received: 0
+              application: null
+              application_fee_amount: null
+              automatic_payment_methods: null
+              canceled_at: null
+              cancellation_reason: null
+              capture_method: "automatic"
+              charges:
+                object: "list"
+                data: []
+                has_more: false
+                total_count: 0
+                url: "/v1/charges?payment_intent=pi_3MieHvSG8Py15w0r1b5KXtve"
+              client_secret: "pi_3MieHvSG8Py15w0r1b5KXtve_secret_Tq5Rpc279yUpxYbP1zO8cbvck"
+              confirmation_method: "automatic"
+              created: 1678110075
+              currency: "usd"
+              customer: null
+              description: "(created by Stripe CLI)"
+              invoice: null
+              last_payment_error: null
+              latest_charge: null
+              livemode: false
+              metadata: {}
+              next_action:
+                type: "use_stripe_sdk"
+                use_stripe_sdk:
+                  type: "three_d_secure_redirect"
+                  stripe_js: "https://hooks.stripe.com/redirect/authenticate/src_1MieHvSG8Py15w0r6l8lhXCs?client_secret=src_client_secret_GrxzpDbhvbBxHPN1kRIYnav1&source_redirect_slug=test_YWNjdF8xSlNNSEVTRzhQeTE1dzByLF9OVGJVckczb2lPaWJTaDdsZ3Z6U1M5Sm0yRFJBRWVV0100OPYhMZcL"
+                  source: "src_1MieHvSG8Py15w0r6l8lhXCs"
+              on_behalf_of: null
+              payment_method: "pm_1MieHvSG8Py15w0rXuA6y7Ki"
+              payment_method_options:
+                card:
+                  installments: null
+                  mandate_options: null
+                  network: null
+                  request_three_d_secure: "automatic"
+              payment_method_types: [
+                card
+              ]
+              processing: null
+              receipt_email: null
+              review: null
+              setup_future_usage: null
+              shipping: 
+                address: 
+                  city: "San Francisco"
+                  country: "US"
+                  line1: "510 Townsend St"
+                  line2: null
+                  postal_code: "94103"
+                  state: "CA"
+                carrier: null
+                name: "Jenny Rosen"
+                phone: null
+                tracking_number: null
+              source: null
+              statement_descriptor: null
+              statement_descriptor_suffix: null
+              status: "requires_action"
+              transfer_data: null
+              transfer_group: null
+    LoginResponse:
+      type: object
+      properties:
+        accessToken:
+          type: string
+          example: enVzZXJJZCI6IjkwMjdiYzYxLTdkNGItNGI2.yVDE0OjExOjE1LjA3OFoiLCJhY3R...pdmUiOnRydWUsImNyZWF0ZWRfYXQ.yVDE0OjExOjE1LjA3OFoiLCJhY3RpdmUiOnRyd
+        idToken:
+          type: string
+          example: enVzZXJJZCI6IjkwMjdiYzYxLTdkNGItNGI2.yVDE0OjExOjE1LjA3OFoiLCJhY3R...pdmUiOnRydWUsImNyZWF0ZWRfYXQ.yVDE0OjExOjE1LjA3OFoiLCJhY3RpdmUiOnRyd
+        refreshToken:
+          type: string
+          example: enVzZXJJZCI6IjkwMjdiYzYxLTdkNGItNGI2.yVDE0OjExOjE1LjA3OFoiLCJhY3R...pdmUiOnRydWUsImNyZWF0ZWRfYXQ.yVDE0OjExOjE1LjA3OFoiLCJhY3RpdmUiOnRyd
+        user:
+          type: object
+          $ref: '#/definitions/User'
+    LoginPayload:
+      type: object
+      properties:
+        phone_code:
+          type: string
+          example: '+91'
+        phone:
+          type: string
+          example: 9898989898
+        password:
+          type: string
+          example: yourPassword
+    SubscriptionPlanPayload:
+      type: object
+      properties:
+        name:
+          type: string
+          example: Basic Plan
+        cost:
+          type: integer
+          format: double
+          example: 99.00
+        currency:
+          type: string
+          example: inr
+        validity:
+          type: integer
+          format: int32
+          example: 30
+        validity_unit:
+          type: string
+          example: DAY
+        perks:
+          type: array
+          items:
+            type: string
+          example: ['Watch all you want. Add-free']
+      required:
+        - name
+        - cost
+        - currency
+        - validity
+        - validity_unit
+        - perks
+    SubscriptionPlanCreateResponse:
+        type: object
+        properties:
+          err:
+            type: boolean
+            example: false
+          msg:
+            type: string
+            example: SUCCESS
+          data:
+            type: object
+            $ref: '#/definitions/SubscriptionPlan'
+          details:
+            type: array
+            example: []
+    SubscriptionPlanListResponse:
+      type: object
+      properties:
+        err:
+          type: boolean
+          example: false
+        msg:
+          type: string
+          example: SUCCESS
+        data:
+          type: array
+          items:
+            $ref: '#/definitions/SubscriptionPlan'
+        details:
+          type: array
+          example: []
+    SubscriptionPlanDeleteResponse:
+      type: object
+      properties:
+        err:
+          type: boolean
+          example: false
+        msg:
+          type: string
+          example: SUCCESS
+        data: 
+          type: object
+          example: null
+        details:
+          type: array
+          example: []
+definitions:
+  NotificationListResponse:
+    type: object
+    properties:
+      err:
+        type: boolean
+        example: false
+      msg:
+        type: string
+        example: 'SUCCESS'
+      data:
+        type: array
+        $ref: '#/definitions/NotificationList'
+      details:
+        type: array
+        example: []
+  NotificationList:
+    type: array
+    items:
+      type: object
+      $ref: '#/definitions/Notification'
+  Notification:
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int32
+        example: 1
+      notification_id:
+        type: string
+        format: uuid
+        example: erewr-wertwr-werwrwer-wewewd
+      type:
+        type: string
+        example: NEW_SERIES
+      details:
+        type: object
+  LogoutResponse:
+    type: object
+    properties:
+      err:
+        type: boolean
+        example: false
+      msg:
+        type: string
+        example: 'SUCCESS'
+      data:
+        type: object
+      details:
+        type: array
+        example: []
+  DeleteUserPayload:
+    type: object
+    properties:
+      id:
+        type: string
+        format: uuid
+        example: 'aea3406a-3f18-48be-aa54-55c80fcda334'
+    required:
+      - id
+  DeleteUserResponse:
+    type: object
+    properties:
+      err:
+        type: boolean
+        example: false
+      msg:
+        type: string
+        example: 'SUCCESS'
+      data:
+        type: object
+        $ref: '#/definitions/User'
+      details:
+        type: array
+        example: []
+  SendNotificationResponse:
+    type: object
+    properties:
+      err:
+        type: boolean
+        example: false
+      msg:
+        type: string
+        example: 'SUCCESS'
+      data:
+        type: object
+        example: null
+      details:
+        type: array
+        example: []
+  SendNotificationPayload:
+    type: object
+    properties:
+      type:
+        type: string
+        example: TEST
+      contents:
+        type: object
+        properties:
+          en:
+            type: string
+            example: Notification from Navarasa
+        required:
+          - en
+    required:
+      - contents
+  ProfilePicturePayload:
+    type: object
+    properties:
+      file:
+        type: string
+        format: binary
+    required:
+      - file
+  SeriesVideoListResponse:
+    type: object
+    properties:
+      err:
+        type: boolean
+        example: false
+      msg:
+        type: string
+        example: 'SUCCESS'
+      data:
+        type: object
+        properties:
+          total_items:
+            type: integer
+            format: int32
+            example: 1
+          videos:
+            type: array
+            items:
+              type: object
+              $ref: '#/components/schemas/VideoMetaData'
+      details:
+        type: array
+        example: []
+  RestrictUserPayload:
+    type: object
+    properties:
+      is_restricted:
+        type: boolean
+        example: false
+      restricted_for:
+        type: string
+        example: 'Restricted Reason'
+    required:
+      - is_restricted
+      - restricted_for
+  RestrictUserResponse:
+    type: object
+    properties:
+      err:
+        type: boolean
+        example: false
+      msg:
+        type: string
+        example: 'SUCCESS'
+      data:
+        type: object
+        $ref: '#/definitions/User'
+      details:
+        type: array
+        example: []
+  GetUserResponse:
+    type: object
+    properties:
+      err:
+        type: boolean
+        example: false
+      msg:
+        type: string
+        example: 'SUCCESS'
+      data:
+        type: object
+        $ref: '#/definitions/User'
+      details:
+        type: array
+        example: []
+  UserListResponse:
+    type: object
+    properties:
+      err:
+        type: boolean
+        example: false
+      msg:
+        type: string
+        example: 'SUCCESS'
+      data:
+        type: object
+        properties:
+          total_items:
+            type: integer
+            format: int32
+            example: 10
+          free_users:
+            type: integer
+            format: int32
+            example: 8
+          users:
+            type: array
+            items:
+              type: object
+              $ref: '#/definitions/User'
+      details:
+        type: array
+        example: []
+  ComingSoonResponse:
+    type: object
+    properties:
+      err:
+        type: boolean
+        example: false
+      msg:
+        type: string
+        example: Coming Soon
+      data:
+        type: array
+        items:
+          type: object
+          $ref: '#/components/schemas/Series'
+      details:
+        type: array
+        example: []
+  CreateSeriesResponse:
+    type: object
+    properties:
+      err:
+        type: boolean
+        example: false
+      msg:
+        type: string
+        example: SUCCESS
+      data:
+        type: object
+        $ref: '#/components/schemas/Series'
+      details:
+        type: array
+        example: []
+  CreateSeriesPayload:
+    type: object
+    properties:
+      name:
+        type: string
+        example: Name
+      description:
+        type: string
+        example: Description
+      poster:
+        type: string
+        example: Poster Url Segment
+      release_date:
+        type: string
+        format: date-time
+        example: 2023-02-25
+      genres:
+        type: array
+        items:
+          type: object
+          $ref: '#/components/schemas/Genre'
+      featured:
+        type: boolean
+        example: false
+      coming_soon:
+        type: boolean
+        example: false
+      director:
+        type: string
+        example: Director
+      casts:
+        type: array
+        items:
+          type: object
+          $ref: '#/components/schemas/Cast'
+      languages:
+        type: array
+        items:
+          type: object
+          $ref: '#/components/schemas/Language'
+    required:
+      - name
+      - description
+      - poster
+      - genres
+      - featured
+      - coming_soon
+      - director
+      - casts
+      - languages
+  UpdateSubscriptionPayload:
+    type: object
+    properties:
+      subscription_plan_id:
+        type: integer
+        format: int32
+        example: 1
+      valid_from:
+        type: string
+        format: date-time
+        example: 2023-02-20T07:04:14.502Z
+      valid_till:
+        type: string
+        format: date-time
+        example: 2023-02-20T07:04:14.502Z
+    required:
+      - subscription_plan_id
+      - valid_from
+      - valid_till
+  SubscriptionPayload:
+    type: object
+    properties:
+      subscription_plan_id:
+        type: integer
+        format: int32
+        example: 1
+      user_id:
+        type: string
+        format: uuid
+        example: aea3406a-3f18-48be-aa54-55c80fcda334
+      valid_from:
+        type: string
+        format: date-time
+        example: 2023-02-20T07:04:14.502Z
+      valid_till:
+        type: string
+        format: date-time
+        example: 2023-02-20T07:04:14.502Z
+    required:
+      - subscription_plan_id
+      - user_id
+  GetSubscriptionResponse:
+    type: object
+    properties:
+      err:
+        type: boolean
+        example: false
+      msg:
+        type: string
+        example: 'SUCCESS'
+      data:
+        type: object
+        properties:
+          status:
+            type: string
+            enum:
+              - ACTIVE
+              - NO_SUBSCRIPTION
+              - EXPIRED
+            example: ACTIVE
+          subscriptiion:
+            type: object
+            $ref: '#/components/schemas/Subscription'
+      details:
+        type: array
+        example: []
+  ListSubscriptionResponse:
+    type: object
+    properties:
+      err:
+        type: boolean
+        example: false
+      msg:
+        type: string
+        example: 'SUCCESS'
+      data:
+        type: array
+        items:
+          type: object
+          $ref: '#/components/schemas/Subscription'
+      details:
+        type: array
+        example: []
+  ListPaymentResponse:
+    type: object
+    properties:
+      err:
+        type: boolean
+        example: false
+      msg:
+        type: string
+        example: 'SUCCESS'
+      data:
+        type: array
+        items:
+          type: object
+          $ref: '#/components/schemas/Payment'
+      details:
+        type: array
+        example: []
+  UpdatePaymentResponse:
+    type: object
+    properties:
+      err:
+        type: boolean
+        example: false
+      msg:
+        type: string
+        example: 'SUCCESS'
+      data:
+        type: object
+        $ref: '#/components/schemas/Payment'
+      details:
+        type: array
+        example: []
+  UpdatePaymentPayload:
+    type: object
+    properties:
+      status:
+        type: string
+        example: COMPLETED
+        enum:
+          - CANCELED
+          - COMPLETED
+          - FAILED
+          - PROCESSING
+    required:
+      - status
+  CreatePaymentResponse:
+    type: object
+    properties:
+      err:
+        type: boolean
+        example: false
+      msg:
+        type: string
+        example: 'SUCCESS'
+      data:
+        type: object
+        properties:
+          paymentIntent:
+            type: string
+            example: pi_1Dt1Zc2eZvKYlo2CWxIDsIH1_secret_TDgoas4E04hTc3c7oaN5eowo8
+          paymentId:
+            type: number
+            example: 1
+          publishableKey:
+            type: string
+            example: pk_1Dt1Zc2eZvKYlo2CWxIDsIH1_secret_TDgoas4E04hTc3c7oaN5eowo8
+      details:
+        type: array
+        example: [] 
+  CreatePaymentPayload:
+    type: object
+    properties:
+      subscription_plan_id:
+        type: integer
+        format: int32
+        example: 1
+      payment_gateway:
+        type: string
+        example: STRIPE
+        enum:
+          - STRIPE
+          - RAZORPAY
+    required:
+     - subscription_plan_id
+     - payment_gateway
+  StripePaymentResponse:
+    type: object
+  RazorpayPaymentResponse:
+    type: object
+  SubscriptionPlan:
+    properties:
+      id:
+        type: string
+        format: int32
+      name:
+        type: string
+      cost:
+        type: integer
+        format: double
+      validity:
+        type: integer
+        format: int32
+      validity_unit:
+        type: string
+      active:
+        type: boolean
+      created_at:
+        type: string
+        format: date-time
+      updated_at:
+        type: string
+        format: date-time
+      perks:
+        type: array
+        items:
+          type: string
+        example: ['Watch all you want. Add-free']
+      subscribers_count:
+        type: integer
+        format: int32
+      subscribers:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/User'
+  User:
+    properties:
+      id:
+        type: string
+        format: uuid
+        example: aea3406a-3f18-48be-aa54-55c80fcda334
+      authType: 
+        type: string
+        example: PHONE
+      authId: 
+        type: string
+        format: email
+        example: example@example.com
+      type:
+        type: string
+        example: SUBSCRIBER
+      photo:
+        type: string
+        example: aea3406a-3f18-48be-aa54-55c80fcda334/profile/profile_pic.png
+      active:
+        type: boolean
+        example: true
+      lastLogin:
+        type: string
+        format: date-time
+        example: 2023-02-20T07:04:14.502Z
+      admin:
+        type: boolean
+        example: false
+      created_at:
+        type: string
+        format: date-time
+        example: 2023-02-20T07:04:14.502Z
+      updated_at:
+        type: string
+        format: date-time
+        example: 2023-02-20T07:04:14.502Z
+      user_type:
+        type: string
+        example: SUBSCRIBER
+      phone_number:
+        type: string
+        example: 8606032853
+      country_code:
+        type: string
+        example: IN
+      email_verified:
+        type: boolean
+        example: false
+      email:
+        type: string
+        format: email
+        example: example@example.com
+      first_name:
+        type: string
+        example: Arthur
+      last_name:
+        type: string
+        example: Doyle
+      gender:
+        type: string
+        example: Male
+      date_of_birth:
+        type: string
+        format: date-time
+        example: 1998-05-05T18:30:00.000Z
+      phone_code:
+        type: string
+        example: +91
+      phoneNumberVerfied:
+        type: boolean
+        example: true
+      emailVerfied:
+        type: boolean
+        example: true
+      is_restricted:
+        type: boolean
+        example: true
+      restricted_for:
+        type: string
+        example: 'Restricted Reason'
+      hasActiveSubscription:
+        type: boolean
+        example: true
+      subscriptionPlan:
+        type: object
+        $ref: '#/definitions/SubscriptionPlan'
+      subscription:
+        type: object
+        $ref: '#/components/schemas/Subscription'

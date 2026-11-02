@@ -1,0 +1,14 @@
+image: atlassian/pipelines-awscli
+pipelines:
+  branches:
+    develop:
+    - step:
+        script:
+        - apk update 
+        - apk add zip
+        - aws s3 cp s3://navarasa-config/config/appspec.yml .
+        - aws s3 cp s3://navarasa-config/config/buildspec.yml .
+        - aws s3 cp s3://navarasa-config/config/install .
+        - aws s3 cp s3://navarasa-config/config/pm2.config.js .
+        - zip -r --exclude=*.git* --exclude=.vscode navarasa-backend-service.zip .
+        - aws s3 cp navarasa-backend-service.zip s3://navarasa-config/code/

@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Bootstrap Example</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="/assets/css/bootstrap.min.css" />
+    <!-- Custom CSS -->
+    <link rel="stylesheet" type="text/css" href="/assets/css/custom.css" />
+
+    <style></style>
+  </head>
+  <body>
+    <div class="support-content-main">
+      <nav class="navbar navbar-light bg-light">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="#">
+            <img
+              src="/assets/img/logo/logo.png"
+              alt=""
+              width="40"
+              height="40"
+              class="d-inline-block align-text-top"
+            />
+            Navarasa
+          </a>
+        </div>
+      </nav>
+
+      <div class="support-content-block container-fluid text-center">
+        <div class="row content m-0">
+          <div class="col-md-6 sidenav">
+            <div class="support-form-block">
+              <h3>We’re here for you.</h3>
+              <h5 class="sub-header">
+                Submit your question and we'll get back to you as soon as we
+                can.
+              </h5>
+              <form class="row g-3" action="/v1/support" method="POST" id="supportForm">
+                <div class="mb-3">
+                  <label
+                    for="firstName"
+                    class="form-label support-form-label"
+                    >First Name</label
+                  >
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="firstName"
+                    aria-describedby="firstName"
+                    placeholder="Enter first name"
+                  />
+                </div>
+                <div class="mb-3">
+                  <label
+                    for="lastName"
+                    class="form-label support-form-label"
+                    >Last Name</label
+                  >
+                  <input
+                    type="email"
+                    class="form-control"
+                    id="lastName"
+                    name="lastName"
+                    placeholder="Enter last  name"
+                  />
+                </div>
+                <div class="mb-3">
+                  <label
+                    for="email"
+                    class="form-label support-form-label"
+                    >Email</label
+                  >
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="email"
+                    name="email"
+                    aria-describedby="emailHelp"
+                    placeholder="name@example.com"
+                  />
+                  <div id="emailHelp" class="form-text">
+                    We'll never share your email with anyone else.
+                  </div>
+                </div>
+                <div class="mb-3">
+                  <label
+                    for="questions"
+                    class="form-label support-form-label"
+                    >Questions</label
+                  >
+                  <textarea
+                    class="form-control"
+                    id="questions"
+                    name="questions"
+                    rows="5"
+                  ></textarea>
+                </div>
+                <div class="p-2 submit-btn-block">
+                  <button type="submit" class="btn btn-primary form-submit-btn form-submit" data-type="support">
+                    Submit
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+          <div class="col-md-6 text-left">
+            <div class="right-img-block">
+              <img
+                src="/assets/img/card/1.png"
+                alt="cardImage"
+                class="right-block-image"
+              />
+            </div>
+          </div>
+        </div>
+        <div class="support-footer  text-center">
+          <div class="">
+            <div class="row m-0">
+              <div class="col">
+                <ul class="footer-list-group list-group">
+                  <li class="list-group-item"><a href="/v1/policies/privacy-policy">Privacy Policy</a></li>
+                  <li class="list-group-item">
+                    <a href="/v1/policies/terms-and-conditions">Terms of Service </a>
+                  </li>
+                  <li class="list-group-item">
+                    <a href="/v1/policies/refund-policy">Refund Policy</a>
+                  </li>
+                  <!-- <li class="list-group-item"><a href="">FAQ</a></li> -->
+                  <li class="list-group-item"><a href="/v1/support">Support</a></li>
+                </ul>
+                <div class="copy-right-block">
+                    <h6>Copyright © 2023 Navarasa. </h6>
+                    <span class="text-span">All rights reserved.</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- <p>Footer Text</p> -->
+        </div>
+      </div>
+</div>
+    </div>
+    <script src="/assets/js/jquery.min.js"></script>
+    <script src="/assets/js/bootstrap.bundle.min.js"></script>
+    <script>
+      function handleFormSubmit(formData, type) {
+        formData.append('type', `save_${type}`);
+        $.ajax({
+          url: `/v1/${type}`,
+          type: 'POST',
+          dataType: 'JSON',
+          data: formData,
+          contentType: false,
+          processData: false,
+          success(res) {
+            console.log(res);
+          },
+          error(xhr, status, err) {
+            console.log(xhr, status, err);
+          }
+        });
+      }
+      $(function() {
+        $(document).on('click', '.form-submit', function(e) {
+          e.preventDefault();
+          const type = $(this).attr('data-type');
+          let formData = new FormData($(`#${type}Form`)[0]);
+          handleFormSubmit(formData, type);
+        });
+      });
+    </script>
+  </body>
+</html>
